@@ -1,0 +1,108 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void freq()
+        {
+            int[,] temparray = new int[10,2]; 
+            int[] array = new int[10];
+            for (int i = 0; i < 10; i++)
+            {
+                array[i] = int.Parse(Console.ReadLine());
+            }
+            
+            int k=-1;
+            for(int i=0;i<array.Length;i++)
+            {
+                bool numCheck=false;
+                for(int j=0;j<10;j++)
+                {
+                    if(temparray[j,0]==array[i])
+                    {
+                        numCheck=true;
+                        temparray[j,1]++;
+                        break;
+                    }
+                }
+                if(!numCheck)
+                {
+                    k++;
+                    temparray[k,0]=array[i];
+                    temparray[k,1]=1;
+                }
+            }
+            
+            int[] max_arr = new int[10];
+            int max = temparray[0,1];
+            for(int i = 0; i < 10; i++)
+            {
+                if(temparray[i,1] >= max)
+                {
+                    max = temparray[i,1];
+                    max_arr[i] = max;
+                    Console.WriteLine("Max freq:" + temparray[i,0] + " with freq: " + temparray[i,1]);  
+                } 
+            }
+        }
+
+        
+        static void array()
+        {
+            int[] array = new int[10];
+            for (int i = 0; i < 10; i++)
+            {
+                array[i] = int.Parse(Console.ReadLine());
+            }
+            int n = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine(n);
+            int[] array2 = new int[11];
+            for (int j = 0; j < n; j++)
+            {
+                Array.Copy(array, array2, 10);
+                for (int i = 1; i < 10; i++)
+                {
+                    array[i] = array2[i - 1];
+                }
+            }
+            foreach (int a in array)
+            {
+                Console.Write(a);
+            }
+        }
+        
+
+        static void alphabet()
+        {
+            string str = Console.ReadLine();
+            string alphabet = "qwertyuiopasdfghjklzxcvbnm";
+            int counter = 0;
+            for (int i = 0; i < str.Length; i++)
+            {
+                for (int j = 0; j < 26; j++)
+                {
+                    if (str[i] == alphabet[j])
+                    {
+                        counter++;
+                        j++;
+                    }
+                }
+            }
+            Console.WriteLine(counter);
+            if (counter > 23) Console.WriteLine("Yes.");
+            else Console.WriteLine("No.");
+        }
+
+        static void Main(string[] args)
+        {  
+            freq(); 
+            array();
+            alphabet();
+            Console.ReadKey();
+        }
+    }
+}
