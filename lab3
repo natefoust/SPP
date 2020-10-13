@@ -1,0 +1,175 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp10
+{
+    class Bus
+    {
+        public string driverName { get; set; }
+        public string busNumber { get; set; }
+        public string mark { get; set; }
+        public string expStart { get; set; }
+        public float mileage { get; set; }
+        public string currentLocation { get; set; }
+
+
+
+        
+        public Bus()
+        { 
+            driverName = "N/A";
+            busNumber = "N/A";
+            mark = "N/A";
+            expStart = "N/A";
+            mileage = 0;
+            currentLocation = "N/A";
+        }
+
+
+        public Bus(string driverName, string busNumber, string mark, string expStart, float mileage, string currentLocation)
+        {
+            this.driverName = driverName;
+            this.busNumber = busNumber;
+            this.mark = mark;
+            this.expStart = expStart;
+            this.mileage = mileage;
+            this.currentLocation = currentLocation;
+        }
+
+        public void Show()
+        {
+            Console.WriteLine();
+        }
+    }
+
+    class listBus
+    {
+        List<Bus> bus = new List<Bus>();
+        public listBus()
+        {
+            bus.Add(new Bus());
+        }
+
+        public void addList(Bus obj)
+        {
+            bus.Add(obj);
+        }
+        
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            listBus lb = new listBus();
+            Bus b = new Bus();
+            lb.addList(b);
+        }
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp9
+{
+    class Program
+    {
+        class Triangle
+        {
+            float catet1;
+            float catet2;
+            float gip;
+
+            public float S(float catet1, float catet2)
+            {
+                return (catet1 * catet2) / 2;
+            }
+            public float P(float catet1, float catet2, float gip)
+            {
+                return catet1 + catet2 + gip;
+            }
+
+            public Triangle()
+            {
+                Console.WriteLine("Введите данные.");
+                Console.Write("Катет1: ");
+                catet1 = float.Parse(Console.ReadLine());
+                Console.Write("Катет1: ");
+                catet2 = float.Parse(Console.ReadLine());
+                Console.Write("Гипотенуза: ");
+                gip = float.Parse(Console.ReadLine());
+
+                if (!isTriangle()) { Console.WriteLine("Не треугольник."); Console.ReadKey(); System.Environment.Exit(0); }
+            }
+
+            public Triangle(float c1, float c2, float g)
+            {
+                catet1 = c1;
+                catet2 = c2;
+                gip = g;
+                if (!isTriangle()) { Console.WriteLine("Не треугольник."); Console.ReadKey(); System.Environment.Exit(0); };
+            }
+
+            ~Triangle()
+            {
+
+            }
+
+            public bool isTriangle()
+            {
+                if (catet1 > gip || catet2 > gip)
+                {
+                    return false;
+                }
+
+                if ((catet1 + catet2) < gip || (catet1 + gip) < catet2 || (catet2 + gip) < catet1)
+                {
+                    return false;
+                }
+                else return true;
+            }
+
+            public override string ToString()
+            {
+                return $"Катет1: {catet1} ||||| Катет2: {catet2} |||| Гипотенуза: {gip}";
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null) return false;
+                Triangle tr = obj as Triangle;
+                if (tr == null) return false;
+                else return (this.catet1 == tr.catet1) && (this.catet2 == tr.catet2) && (this.gip == tr.gip);
+
+
+            }
+
+
+
+        }
+
+        static void Main(string[] args)
+        {
+            Triangle tr = new Triangle();
+            Triangle tr1 = new Triangle(4,6,7);
+
+            if (tr.Equals(tr1))
+            {
+                Console.WriteLine("Равны");
+            }
+            else Console.WriteLine("Не равны");
+            Console.WriteLine(tr1.ToString());
+
+            Console.ReadKey();
+        }
+    }
+}
+
