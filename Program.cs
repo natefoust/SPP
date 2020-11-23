@@ -4,120 +4,77 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _6_3
+namespace _6_2
 {
     class Program
     {
-        static void Main(string[] args)
+        public class Hand
         {
-            Sum sum = new Sum();
-            Umn umn = new Umn();
-            MultiPult mPult = new MultiPult();
-            mPult.SetCommand(new SumOnCommand(sum));
+            public float rotation { get; set; }
+            protected int time { get; set; }
 
-            //сложение
-            mPult.PressButton(0);
-            //умножение
-            mPult.PressButton(1);
-            mPult.PressButton(2);
-            mPult.SetCommand(new UmnOnCommand(umn));
-            mPult.PressButton(2);
-
-            Console.Read();
-        }
-    }
-    interface ICommand
-    {
-        void Execute();
-    }
-
-
-    class Sum
-    {
-        public void On()
-        {
-            Console.WriteLine("Сложение!");
-        }
-    }
-
-    class SumOnCommand : ICommand
-    {
-        Sum sum;
-        public SumOnCommand(Sum SumSet)
-        {
-            sum = SumSet;
-        }
-        public void Execute()
-        {
-            sum.On();
-        }
-    }
-    
-
-    class Umn
-    {
-        public void On()
-        {
-            Console.WriteLine("Умножение!");
-        }
-    }
-
-    class UmnOnCommand : ICommand
-    {
-        Umn umn;
-        public UmnOnCommand(Umn UmnSet)
-        {
-            umn = UmnSet;
-        }
-        public void Execute()
-        {
-            umn.On();
-        }
-    }
-
-    class NoCommand : ICommand
-    {
-        public void Execute()
-        {
-        }
-    }
-
-    class MultiPult
-    {
-        ICommand[] buttons;
-        Stack<ICommand> commandsHistory;
-
-        Sum sum = new Sum();
-        Umn umn = new Umn();
-        public MultiPult()
-        {
-            buttons = new ICommand[3];
-            for (int i = 0; i < buttons.Length; i++)
+            public Hand(int time, bool isHours)
             {
-                buttons[i] = new NoCommand();
+                if (isHours)
+                {
+                    if (time >= 12 && time < 24) time /= 2;
+                    this.time = time;
+                    rotation = 360 * ((float)time / 12);
+                }
+                else
+                {
+                    this.time = time;
+                    rotation = 360 * ((float)time / 1440);
+                }
             }
-            commandsHistory = new Stack<ICommand>();
-            SetStaticCommand(0, new UmnOnCommand(umn));
-            SetStaticCommand(1, new SumOnCommand(sum));
 
+            public int print()
+            {
+                return time;
+            }
+
+            Hand(float rotation)
+            {
+                this.rotation = rotation;
+                time = (int)(rotation / 360 * 86400);
+            }
+
+            public float getRotation()
+            {
+                return rotation;
+            }
+
+            public int getTime()
+            {
+                return time;
+            }
         }
 
-        public void SetCommand(ICommand com)
+        public class Clock
         {
-            buttons[2] = com;
-        }
+            Hand hour { get; set; }
+            Hand minute { get; set; }
+            DateTime time1 { get; set; }
 
-        private void SetStaticCommand(int number, ICommand com)
-        {
-            buttons[number] = com;
-        }
+            public Clock()
+            {
+                this.time1 = DateTime.Now;
+                this.hour = new Hand(time1.Hour, true);
+                this.minute = new Hand(time1.Minute, false);
+            }
 
-
-        public void PressButton(int number)
-        {
-            buttons[number].Execute();
-            // добавляем выполненную команду в историю команд
-            commandsHistory.Push(buttons[number]);
+            void print()
+            {
+                Console.WriteLine("Time: " + time1);
+                Console.WriteLine("Hour hand: " + hour.print() + ", " + hour.rotation);
+                Console.WriteLine("Minute hand: " + minute.print() + ", " + minute.rotation);
+            }
+            static void Main(string[] args)
+            {
+                Clock clock = new Clock();
+                clock.print();
+                Console.ReadKey();
+            }
         }
     }
 }
